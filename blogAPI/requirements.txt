@@ -1,0 +1,5 @@
+pydantic
+fastapi
+SQLAlchemy
+uvicorn
+pyjwt
