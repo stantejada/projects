@@ -14,7 +14,7 @@ class Blog(BlogBase):
     user_id: int
     
     class Config:
-        orm_mode = True
+        from_attributes = True
         
 #Creating schemas for user       
 class UserBase(BaseModel):
@@ -30,6 +30,6 @@ class User(UserCreate):
     blogs: List[Blog] = []
     
     class Config:
-        orm_mode = True
+        from_attributes = True
         
     

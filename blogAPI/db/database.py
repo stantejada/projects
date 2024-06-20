@@ -3,10 +3,10 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 #Database URL
-SQLALCHEMY_DB_URL = "sqlite:///./blogApp.db"
+SQLALCHEMY_DB_URL = "sqlite:///blogApp.db"
 
 #creating the engine
-engine = create_engine(SQLALCHEMY_DB_URL, echo=True)
+engine = create_engine(SQLALCHEMY_DB_URL)
 
 #creating sessionlocal
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
