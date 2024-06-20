@@ -1,7 +1,7 @@
 from typing import List
 from pydantic import BaseModel
 
-
+#creating schemas for blog
 class BlogBase(BaseModel):
     title: str
     content: str
@@ -16,6 +16,7 @@ class Blog(BlogBase):
     class Config:
         orm_mode = True
         
+#Creating schemas for user       
 class UserBase(BaseModel):
     username: str
     email:str
