@@ -8,13 +8,15 @@ class User(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, index=True)
-    email = Column(String,unique=True, index=True)
+    email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
     
     blogs = relationship("Blog", back_populates="owner")
     
 class Blog(Base):
+    __tablename__ = "blogs"
+    
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
     content = Column(String, index=True)

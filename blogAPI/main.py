@@ -38,3 +38,11 @@ async def get_users(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not exist!")
     return db_user
 
+@app.post("/users/{user_id}/blogs", response_model=schemas.Blog)
+async def create_blogs(user_id: int, blog: schemas.BlogCreate, db: Session = Depends(get_db)):
+    return create_new_blog(db=db, blog=blog, user_id=user_id)
+
+@app.get("/blogs/", response_model=List[schemas.Blog])
+async def get_blogs(skip: int=0, limit: int=100, db: Session = Depends(get_db)):
+    blogs = get_all_blogs(db=db, skip=skip, limit=limit)
+    return blogs

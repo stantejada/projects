@@ -25,8 +25,8 @@ def get_all_blogs(db: Session, skip: int=0, limit: int=100):
 
 #create new users
 def create_new_user(db: Session, user:schemas.UserCreate):
-    hashed_password = jwt.encode(payload={"hashed_password":user.password}, key=KEY, algorithm=ALGORITHM)
-    db_user = models.User(username=user.username, hashed_password=hashed_password)
+    password = jwt.encode(payload={"hashed_password":user.password}, key=KEY, algorithm=ALGORITHM)
+    db_user = models.User(username=user.username, hashed_password=password, email=user.email)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
