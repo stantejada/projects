@@ -26,7 +26,8 @@ def get_all_blogs(db: Session, skip: int = 0, limit: int = 100):
 #create new users
 def create_new_user(db: Session, user: schemas.UserCreate):
     hashed_password = jwt.encode(payload={"hashed_password":user.password}, key=KEY, algorithm=ALGORITHM)
-    db_user = models.User(username = user.username, email = user.email, hashed_password = hashed_password)
+    
+    db_user = models.User(username = user.username, email = user.email, password = hashed_password)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -39,5 +40,29 @@ def create_new_blog(db: Session, blog: schemas.BlogCreate, user_id:int):
     db.refresh(db_blog)
     return db_blog
 
+def update_user_by_id(db: Session, user: schemas.User, db_user:models.User):
+    db_user.username = user.username
+    db_user.email = user.email
+    ### Create a function to help me to validate if user wants to change its dates: pending ###
+    db_user.password = jwt.encode(payload={"hashed_password": user.password}, key=KEY, algorithm=ALGORITHM)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
 
+def get_blog_by_id(db: Session, blog_id: int):
+    return db.query(models.Blog).filter(models.Blog.id == blog_id).first()
+
+def update_blog_by_user(db: Session, user_id: int, blog:schemas.Blog, db_blog:models.Blog):
+    if db_blog.user_id == user_id:
+        db_blog.title = blog.title
+        db_blog.content = blog.content
+        db.commit()
+        db.refresh(db_blog)
+    else:
+        return None
+    return db_blog
+
+def delete_user_by_id(db: Session, user: models.User):
+    db.delete(user)
+    db.commit()
     
